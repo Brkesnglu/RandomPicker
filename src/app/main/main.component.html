@@ -1,0 +1,98 @@
+<body>
+  <div class="container square-box d-flex justify-content-center align-items-center">
+    <div *ngIf="this.showList==false; else showTable">
+      <div class="card-pop p-2">
+
+        <div class="d-flex justify-content-end " style=" position: relative;">
+          <button (click)="showListMethod()" mat-icon-button>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" style="color: #2A4F5F;" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="d-flex justify-content-center mt-2">
+
+          <form action="" [formGroup]="formgroup">
+            <mat-form-field appearance="standard">
+              <mat-label>Enter a Value</mat-label>
+              <input matInput [(ngModel)]="value" (keyup.enter)="addToValuesArray()" formControlName="name">
+            </mat-form-field>
+          </form>
+          <div class="d-flex align-items-center justify-content-center" style="margin-left: 5%;">
+            <button mat-raised-button style="background-color:#F28444; color: white; height: 40px;"
+              (click)="addToValuesArray()">Add</button>
+          </div>
+
+        </div>
+
+
+        <div class="d-flex justify-content-center mt-5">
+
+          <div class="row ">
+            <button mat-raised-button style="background-color: #2A4F5F; color: white; height: 40px; "
+              (click)="pickFromValuesArray()">Pick Random</button>
+          </div> 
+
+        </div>
+        <div class="d-flex justify-content-center mt-5 h-5" style="color:#284C5B">
+          <ng-container *ngIf="pickRandom">
+            <div class="row" *ngIf="this.lastElement!=this.secondToLast; else counter">
+              <h1 class="animate__animated animate__pulse"> {{pickRandom | uppercase }}</h1>
+            </div>
+          </ng-container>
+
+          <div *ngIf="this.valuesArray.length < 2">
+            <h1 class="animate__animated animate__shakeX">{{showNotification}}</h1>
+          </div>
+
+          <ng-template #counter>
+            <div class="row">
+              <h1 class="animate__animated animate__pulse"> {{pickRandom | uppercase }} x {{count}} </h1>
+            </div>
+          </ng-template>
+
+        </div> 
+      </div>
+    </div>
+
+    <ng-template #showTable>
+      <div class="card-pop">
+        <div class="d-flex justify-content-start">
+          <button mat-icon-button class="ml-3" (click)="showListMethod()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" style="color: #2A4F5F;" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+            </svg>
+          </button>
+        </div>
+        <div class="d-flex justify-content-center mt-1"> 
+
+          <div *ngIf="valuesArray.length>=1 else notFound">
+            <div class="d-flex justify-content-center m-5">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Values</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let values of valuesArray">
+                    <td>{{values}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <ng-template #notFound>
+      <div *ngIf="valuesArray.length<=0" class="d-flex justify-content-center m-5" style="color:#284C5B">
+        <h1> Values Not Found </h1>
+      </div>
+    </ng-template>
+
+  </div>
+</body>
